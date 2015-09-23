@@ -4,7 +4,7 @@ import numpy as np
 import rasterio as rio
 import scipy.ndimage
 
-def compare(srcpath1, srcpath2, max_px_diff, resample):
+def compare(srcpath1, srcpath2, max_px_diff=0, resample=1):
     with rio.drivers():
         src1 = rio.open(srcpath1)
         src2 = rio.open(srcpath2)
