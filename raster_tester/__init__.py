@@ -2,8 +2,9 @@
 
 import numpy as np
 import rasterio as rio
+import scipy.ndimage
 
-def compare(srcpath1, srcpath2, max_px_diff=0):
+def compare(srcpath1, srcpath2, max_px_diff, resample):
     with rio.drivers():
         src1 = rio.open(srcpath1)
         src2 = rio.open(srcpath2)
@@ -20,7 +21,9 @@ def compare(srcpath1, srcpath2, max_px_diff=0):
 
         for bidx in range(1, count1 + 1):
             band1 = src1.read(bidx, masked=False).astype(np.int16)
+            band1 = scipy.ndimage.zoom(band1, float(resample), order=1)
             band2 = src2.read(bidx, masked=False).astype(np.int16)
+            band2 = scipy.ndimage.zoom(band2, float(resample), order=1)
 
             diff = np.absolute(band1 - band2)
             threshold = np.zeros(band1.shape)
