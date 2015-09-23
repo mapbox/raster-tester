@@ -9,9 +9,12 @@ def cli():
 @click.command("compare")
 @click.argument("input_1", type=click.Path(exists=True))
 @click.argument("input_2", type=click.Path(exists=True))
-@click.option("--pixel-threshold", "-p", type=int, default=0)
-def compare(input_1, input_2, pixel_threshold):
-    raster_tester.compare(input_1, input_2, pixel_threshold)
+@click.option("--pixel-threshold", "-p", type=int, default=0,
+    help='threshold for pixel diffs')
+@click.option("--resample", "-r", type=float, default=1.0,
+    help='If the image is lossy, resample to handle variation in compression artifacts')
+def compare(input_1, input_2, pixel_threshold, resample):
+    raster_tester.compare(input_1, input_2, pixel_threshold, resample)
 
 cli.add_command(compare)
 
