@@ -23,6 +23,35 @@ def upsample(bidx, up, fr, to):
 
     return upBidx
 
+def compare_coeff(srcpath1, srcpath2, downsample, coeff_threshold):
+    with rio.open(srcpath1) as src1:
+        with rio.open(srcpath2) as src2:
+            props = ['count', 'crs', 'dtypes', 'driver', 'bounds', 'height', 'width', 'shape', 'nodatavals']
+
+            for prop in props:
+                a = src1.__getattribute__(prop)
+                b = src2.__getattribute__(prop)
+                assert a == b, "prop %s does not match (%s != %s)" % (prop, a, b)
+
+            img1 = np.zeros((src1.count, int(src1.height / downsample), int(src1.width / downsample)), src1.meta['dtype'])
+
+            src1.read(out=img1)
+
+            img2 = np.zeros((src2.count, int(src2.height / downsample), int(src2.width / downsample)), src2.meta['dtype'])
+
+            src2.read(out=img2)
+
+            # from matplotlib.pyplot import imshow, show, plot, figure
+            # fig = figure(figsize=(10,10))
+            for one, two, pl in zip(img1, img2, [1, 2, 3, 4]):
+                # ax = fig.add_subplot(2, 2, pl)
+                ccof = np.corrcoef(one.ravel(), two.ravel())
+                assert ccof[0][1] > coeff_threshold, "correlation coefficient of Band %s is %s, below threshold of %s" % (pl, ccof[0][1], coeff_threshold)
+
+                # ax.set_title("Band %s - Coeff %s" % (pl, ccof[0][1]))
+                # ax.plot(one.ravel(), two.ravel(), '.', alpha=0.2, c='grey')
+            # show()
+
 def compare(srcpath1, srcpath2, max_px_diff=0, resample=1):
     with rio.drivers():
         src1 = rio.open(srcpath1)
