@@ -8,7 +8,7 @@ with codecs_open('README.rst', encoding='utf-8') as f:
 
 
 setup(name='raster-tester',
-      version='0.0.1',
+      version='0.1.0',
       description=u"Tools for testing rasters",
       long_description=long_description,
       classifiers=[],
@@ -25,7 +25,7 @@ setup(name='raster-tester',
           'rasterio'
       ],
       extras_require={
-          'test': ['pytest']
+          'test': ['pytest', 'pytest-cov'],
       },
       entry_points="""
       [console_scripts]
