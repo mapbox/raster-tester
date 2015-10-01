@@ -27,5 +27,6 @@ Options:
                                  artifacts [default=1]
   --compare-masked               Only compare masks + unmasked areas of RGBA
                                  rasters
+  --debug                        Print ascii preview of errors
   --help                         Show this message and exit.
 ```

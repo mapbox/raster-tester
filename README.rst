@@ -1,6 +1,8 @@
 raster-tester
 =============
 
+|Build Status|
+
 ::
 
      _______________        _______________
@@ -27,4 +29,8 @@ compare
                                      artifacts [default=1]
       --compare-masked               Only compare masks + unmasked areas of RGBA
                                      rasters
+      --debug                        Print ascii preview of errors
       --help                         Show this message and exit.
+
+.. |Build Status| image:: https://magnum.travis-ci.com/mapbox/raster-tester.svg?token=Dkq56qQtBntqTfE3yeVy
+   :target: https://magnum.travis-ci.com/mapbox/raster-tester
