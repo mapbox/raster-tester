@@ -35,7 +35,18 @@ def test_array_compare():
     assert diffcount == 0
     assert not overthresh
 
-def test_array_compare_overthresh():
+def test_array_compare_one_overthresh():
+    rRows, rCols = np.random.randint(10, 100, 2)
+    testArray1 = np.zeros((rRows, rCols), dtype=np.uint16)
+    testArray2 = np.zeros((rRows, rCols), dtype=np.uint16)
+
+    testArray2[0][0] += 10
+    diffcount, overthresh = raster_tester.array_compare(testArray1, testArray2, 9, 0)
+
+    assert diffcount == 1
+    assert overthresh
+
+def test_array_compare_all_overthresh():
     rRows, rCols = np.random.randint(10, 100, 2)
     testArray1 = np.zeros((rRows, rCols), dtype=np.uint16)
     testArray2 = np.zeros((rRows, rCols), dtype=np.uint16) + 10
