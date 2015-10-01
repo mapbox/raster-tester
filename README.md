@@ -1,5 +1,7 @@
 # raster-tester
 
+[![Build Status](https://magnum.travis-ci.com/mapbox/raster-tester.svg?token=Dkq56qQtBntqTfE3yeVy)](https://magnum.travis-ci.com/mapbox/raster-tester)
+
 ```
  _______________        _______________
 |_|_|_|_|_|_|_|_|      |_|_|_|_|_|_|_|_|
