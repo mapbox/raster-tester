@@ -17,8 +17,10 @@ def cli():
     help='Upsample to handle variation in compression artifacts [default=1]')
 @click.option("--compare-masked", is_flag=True,
     help='Only compare masks + unmasked areas of RGBA rasters')
-def compare(input_1, input_2, pixel_threshold, upsample, downsample, compare_masked):
-    raster_tester.compare(input_1, input_2, pixel_threshold, upsample, downsample, compare_masked)
+@click.option("--debug", is_flag=True,
+    help='Print ascii preview of errors')
+def compare(input_1, input_2, pixel_threshold, upsample, downsample, compare_masked, debug):
+    raster_tester.compare(input_1, input_2, pixel_threshold, upsample, downsample, compare_masked, debug)
 
 cli.add_command(compare)
 

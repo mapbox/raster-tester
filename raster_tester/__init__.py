@@ -32,10 +32,10 @@ def array_compare(arr1, arr2, valueFilter=0, countFilter=0, debug=False):
 
     if debug and diffCount > countFilter:
         rows, cols = arr1.shape
-        divver = int(np.mean([rows, cols])) / 20 + 1
-        mapa = ['.','X']
-        diffPlot = (np.histogram2d(diffSpots[0], diffSpots[1], (np.arange(0, cols, divver + 5), np.arange(0, rows, divver)))[0] > 0).astype(np.uint8)
-        click.echo('\n'.join([''.join([mapa[i] for i in row]) for row in diffPlot]))
+        divver = int(np.mean([rows, cols])) / 60 + 1
+        mapa = ['-','X']
+        diffPlot = (np.histogram2d(diffSpots[0], diffSpots[1], (np.arange(0, cols, divver * 2), np.arange(0, rows, divver)))[0] > 0).astype(np.uint8)
+        click.secho('\n'.join([''.join([mapa[i] for i in row]) for row in diffPlot]), fg='red')
 
     return diffCount, diffCount > countFilter
 
@@ -64,7 +64,7 @@ def compare_properties(src1, src2, properties):
     return noMatch
 
 
-def compare(srcpath1, srcpath2, max_px_diff=0, upsample=1, downsample=1, compare_masked=True):
+def compare(srcpath1, srcpath2, max_px_diff=0, upsample=1, downsample=1, compare_masked=True, debug=False):
     with rio.open(srcpath1) as src1:
         with rio.open(srcpath2) as src2:
 
@@ -86,7 +86,7 @@ def compare(srcpath1, srcpath2, max_px_diff=0, upsample=1, downsample=1, compare
                 src1.read(4, out=masked_1, masked=False)
                 src2.read(4, out=masked_2, masked=False)
                 compareAlpha = 0
-                difference, aboveThreshold = array_compare(masked_1, masked_2, 16, max_px_diff)
+                difference, aboveThreshold = array_compare(masked_1, masked_2, 16, max_px_diff, debug)
 
                 assert not aboveThreshold, 'Mask has %s pixels that vary by more than 16' % (difference)
 
@@ -110,5 +110,5 @@ def compare(srcpath1, srcpath2, max_px_diff=0, upsample=1, downsample=1, compare
                     band1 = upsample_array(band1, upsample, frAff, toAff)
                     band2 = upsample_array(band2, upsample, frAff, toAff)
 
-                difference, aboveThreshold = array_compare(band1, band2, 16, max_px_diff, True)
+                difference, aboveThreshold = array_compare(band1, band2, 16, max_px_diff, debug)
                 assert not aboveThreshold, 'Band %s has %s pixels that vary by more than 16' % (bidx, difference)
