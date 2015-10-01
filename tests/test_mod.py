@@ -51,11 +51,13 @@ def test_array_compare_threshchange():
     testArray1 = np.zeros((rRows, rCols)) + 1
     testArray2 = np.zeros((rRows, rCols)) + 1
 
+    # testArray1 += 0
+
     fuzzrange = np.random.randint(1, 100, 1)[0]
 
     for i in range(fuzzrange):
         r, c = np.random.randint(0, min([rRows, rCols]) - 1, 2)
-        testArray2[r][c] = 0
-        testArray1[r][c] = 2
+        testArray2[r][c] += 0
+        testArray1[r][c] += 1
 
-    assert raster_tester.compare_bands(testArray1.astype(np.uint16), testArray2.astype(np.uint16), 16, 1).size == fuzzrange
+    assert raster_tester.compare_bands(testArray1, testArray2, 16, 1).size == fuzzrange
