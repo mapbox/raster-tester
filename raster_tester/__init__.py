@@ -25,8 +25,7 @@ def upsample_array(bidx, up, fr, to):
 
 def compare_bands(band1, band2, max_px_diff=16, diffthresh=16):
     diff = np.absolute(band1 - band2)
-            
-    threshold = np.zeros(band1.shape)
+
     outliers = np.where(diff > diffthresh)
 
     return outliers[0]
