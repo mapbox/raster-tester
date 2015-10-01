@@ -49,7 +49,7 @@ install:
   - "pip install -e .[test]"
 
 script:
-  - py.test --cov nodata --cov-report term-missing
+  - py.test --cov raster_tester --cov-report term-missing
 
 after_success:
   - coveralls
