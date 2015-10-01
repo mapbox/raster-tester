@@ -24,7 +24,7 @@ def upsample_array(bidx, up, fr, to):
     return upBidx
 
 def array_compare(arr1, arr2, valueFilter=0, countFilter=0, debug=False):
-    diffArr = np.abs(arr1 - arr2)
+    diffArr = np.abs(arr1.astype(np.int64) - arr2.astype(np.int64)).astype(arr1.dtype)
 
     diffSpots = np.where(diffArr > valueFilter)
 

@@ -30,9 +30,30 @@ def test_attribute_compare_notok():
 def test_array_compare():
     rRows, rCols = np.random.randint(10, 100, 2)
     testArray = np.zeros((rRows, rCols), dtype=np.uint16)
-    assert raster_tester.compare_bands(testArray, testArray).size == 0
+    diffcount, overthresh = raster_tester.array_compare(testArray, testArray)
 
-def test_array_compare():
+    assert diffcount == 0
+    assert not overthresh
+
+def test_array_compare_overthresh():
+    rRows, rCols = np.random.randint(10, 100, 2)
+    testArray1 = np.zeros((rRows, rCols), dtype=np.uint16)
+    testArray2 = np.zeros((rRows, rCols), dtype=np.uint16) + 10
+    diffcount, overthresh = raster_tester.array_compare(testArray1, testArray2)
+
+    assert diffcount == testArray1.size
+    assert overthresh
+
+def test_array_compare_belowthresh():
+    rRows, rCols = np.random.randint(10, 100, 2)
+    testArray1 = np.zeros((rRows, rCols), dtype=np.uint8)
+    testArray2 = np.zeros((rRows, rCols), dtype=np.uint8) + 10
+    diffcount, overthresh = raster_tester.array_compare(testArray1, testArray2, 20, 20)
+
+    assert diffcount == 0
+    assert not overthresh
+
+def test_array_compare_rand_overthresh():
     rRows, rCols = np.random.randint(10, 100, 2)
     testArray1 = np.zeros((rRows, rCols)) + 1
     testArray2 = np.zeros((rRows, rCols)) + 1
@@ -44,20 +65,6 @@ def test_array_compare():
         testArray2[r][c] = 0
         testArray1[r][c] = 1
 
-    assert raster_tester.compare_bands(testArray1.astype(np.uint16), testArray2.astype(np.uint16), 16, 16).size == 0
+    diffcount, overthresh = raster_tester.array_compare(testArray1.astype(np.uint16), testArray2.astype(np.uint16), 0, 16)
 
-def test_array_compare_threshchange():
-    rRows, rCols = np.random.randint(10, 100, 2)
-    testArray1 = np.zeros((rRows, rCols)) + 1
-    testArray2 = np.zeros((rRows, rCols)) + 1
-
-    # testArray1 += 0
-
-    fuzzrange = np.random.randint(1, 100, 1)[0]
-
-    for i in range(fuzzrange):
-        r, c = np.random.randint(0, min([rRows, rCols]) - 1, 2)
-        testArray2[r][c] += 0
-        testArray1[r][c] += 1
-
-    assert raster_tester.compare_bands(testArray1, testArray2, 16, 1).size == fuzzrange
+    assert not overthresh
