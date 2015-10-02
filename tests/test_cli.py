@@ -10,4 +10,10 @@ def test_cli_okcompare_bad():
     runner = CliRunner()
     result = runner.invoke(cli, ['compare', 'tests/fixtures/blobby.tif', 'tests/fixtures/notblobby.tif', '--upsample', '8', '--downsample', '64'])
     assert result.exit_code == -1
+
+def test_cli_okcompare_bad_no_error():
+    runner = CliRunner()
+    result = runner.invoke(cli, ['compare', 'tests/fixtures/blobby.tif', 'tests/fixtures/notblobby.tif', '--upsample', '8', '--downsample', '64', '--no-error'])
+    assert result.exit_code == 0
+    assert result.output_bytes == 'NOT OK - Band 1 has 363 pixels that vary by more than 16\n'
     

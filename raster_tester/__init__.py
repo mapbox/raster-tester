@@ -97,7 +97,7 @@ def compare(srcpath1, srcpath2, max_px_diff=0, upsample=1, downsample=1, compare
 
                 if aboveThreshold:
                     exception_raiser('Mask has %s pixels that vary by more than 16' % (difference), no_stderr)
-                # assert not aboveThreshold, 'Mask has %s pixels that vary by more than 16' % (difference)
+
 
             for bidx in range(1, count1 + compareAlpha):
                 # create arrays for decimated reading
