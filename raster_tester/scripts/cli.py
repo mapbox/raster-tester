@@ -17,10 +17,12 @@ def cli():
     help='Upsample to handle variation in compression artifacts [default=1]')
 @click.option("--compare-masked", is_flag=True,
     help='Only compare masks + unmasked areas of RGBA rasters')
+@click.option("--no-error", is_flag=True,
+    help='Compare in non stderr mode: echos "(OK|NOT OK) - <input_1> is (within|not within) <pixel-threshold> pixels of <input 2>"')
 @click.option("--debug", is_flag=True,
     help='Print ascii preview of errors')
-def compare(input_1, input_2, pixel_threshold, upsample, downsample, compare_masked, debug):
-    raster_tester.compare(input_1, input_2, pixel_threshold, upsample, downsample, compare_masked, debug)
+def compare(input_1, input_2, pixel_threshold, upsample, downsample, no_error, compare_masked, debug):
+    raster_tester.compare(input_1, input_2, pixel_threshold, upsample, downsample, compare_masked, no_error, debug)
 
 cli.add_command(compare)
 

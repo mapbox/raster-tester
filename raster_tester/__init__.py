@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import click
+import click, sys
 
 import numpy as np
 import rasterio as rio
@@ -22,6 +22,13 @@ def upsample_array(bidx, up, fr, to):
         resampling=RESAMPLING.bilinear)
 
     return upBidx
+
+def exception_raiser(message, no_stderr):
+    if no_stderr:
+        click.echo("NOT OK - %s" % (message))
+        sys.exit(0)
+    else:
+        raise ValueError, message
 
 def array_compare(arr1, arr2, valueFilter=0, countFilter=0, debug=False):
     diffArr = np.abs(arr1.astype(np.int64) - arr2.astype(np.int64)).astype(arr1.dtype)
@@ -64,7 +71,7 @@ def compare_properties(src1, src2, properties):
     return noMatch
 
 
-def compare(srcpath1, srcpath2, max_px_diff=0, upsample=1, downsample=1, compare_masked=True, debug=False):
+def compare(srcpath1, srcpath2, max_px_diff=0, upsample=1, downsample=1, compare_masked=True, no_stderr=False, debug=False):
     with rio.open(srcpath1) as src1:
         with rio.open(srcpath2) as src2:
 
@@ -88,7 +95,9 @@ def compare(srcpath1, srcpath2, max_px_diff=0, upsample=1, downsample=1, compare
                 compareAlpha = 0
                 difference, aboveThreshold = array_compare(masked_1, masked_2, 16, max_px_diff, debug)
 
-                assert not aboveThreshold, 'Mask has %s pixels that vary by more than 16' % (difference)
+                if aboveThreshold:
+                    exception_raiser('Mask has %s pixels that vary by more than 16' % (difference), no_stderr)
+                # assert not aboveThreshold, 'Mask has %s pixels that vary by more than 16' % (difference)
 
             for bidx in range(1, count1 + compareAlpha):
                 # create arrays for decimated reading
@@ -111,4 +120,7 @@ def compare(srcpath1, srcpath2, max_px_diff=0, upsample=1, downsample=1, compare
                     band2 = upsample_array(band2, upsample, frAff, toAff)
 
                 difference, aboveThreshold = array_compare(band1, band2, 16, max_px_diff, debug)
-                assert not aboveThreshold, 'Band %s has %s pixels that vary by more than 16' % (bidx, difference)
+
+                if aboveThreshold:
+                    exception_raiser('Band %s has %s pixels that vary by more than 16' % (bidx, difference), no_stderr)
+    click.echo("OK - %s is similar to within %s pixels of %s" % (srcpath1, max_px_diff, srcpath2))
