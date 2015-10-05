@@ -22,8 +22,18 @@ def test_cli_okcompare_rgb():
     result = runner.invoke(cli, ['compare', 'tests/expected/blobby_rgb.tif', 'tests/fixtures/notblobby_rgb.tif', '--upsample', '8', '--compare-masked', '--downsample', '64', '--flex-mode'])
     assert result.exit_code == 0
 
+def test_cli_okcompare_rgb_rev():
+    runner = CliRunner()
+    result = runner.invoke(cli, ['compare', 'tests/fixtures/notblobby_rgb.tif', 'tests/expected/blobby_rgb.tif', '--upsample', '8', '--compare-masked', '--downsample', '64', '--flex-mode'])
+    assert result.exit_code == 0
+
 def test_cli_okcompare_bad_rgb():
     runner = CliRunner()
     result = runner.invoke(cli, ['compare', 'tests/expected/blobby_rgb.tif', 'tests/fixtures/notblobby_rgb.tif', '--upsample', '8', '--downsample', '64', '--compare-masked'])
+    assert result.exit_code == -1
+
+def test_cli_okcompare_bad_rgb_rev():
+    runner = CliRunner()
+    result = runner.invoke(cli, ['compare', 'tests/fixtures/notblobby_rgb.tif', 'tests/expected/blobby_rgb.tif', '--upsample', '8', '--downsample', '64', '--compare-masked'])
     assert result.exit_code == -1
     

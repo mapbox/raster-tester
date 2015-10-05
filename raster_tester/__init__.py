@@ -104,7 +104,7 @@ def compare(srcpath1, srcpath2, max_px_diff=0, upsample=1, downsample=1, compare
                 if aboveThreshold:
                     exception_raiser('Mask has %s pixels that vary by more than 16' % (difference), no_stderr)
 
-            elif compare_masked and src1.count == 4 and flex_mode:
+            elif compare_masked and flex_mode:
                 masked_1 = make_fill_array(src1.height, src1.width, downsample, src1.meta['dtype'])
                 masked_2 = make_fill_array(src2.height, src2.width, downsample, src2.meta['dtype'])
 
