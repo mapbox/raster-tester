@@ -29,7 +29,11 @@ compare
                                      artifacts [default=1]
       --compare-masked               Only compare masks + unmasked areas of RGBA
                                      rasters
+      --no-error                     Compare in non stderr mode: echos "(OK|NOT
+                                     OK) - <input_1> is (within|not within)
+                                     <pixel-threshold> pixels of <input 2>"
       --debug                        Print ascii preview of errors
+      --flex-mode                    Allow comparison of masked RGB + RGBA
       --help                         Show this message and exit.
 
 .. |Build Status| image:: https://magnum.travis-ci.com/mapbox/raster-tester.svg?token=Dkq56qQtBntqTfE3yeVy

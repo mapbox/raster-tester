@@ -21,8 +21,10 @@ def cli():
     help='Compare in non stderr mode: echos "(OK|NOT OK) - <input_1> is (within|not within) <pixel-threshold> pixels of <input 2>"')
 @click.option("--debug", is_flag=True,
     help='Print ascii preview of errors')
-def compare(input_1, input_2, pixel_threshold, upsample, downsample, no_error, compare_masked, debug):
-    raster_tester.compare(input_1, input_2, pixel_threshold, upsample, downsample, compare_masked, no_error, debug)
+@click.option("--flex-mode", is_flag=True,
+    help='Allow comparison of masked RGB + RGBA')
+def compare(input_1, input_2, pixel_threshold, upsample, downsample, no_error, compare_masked, debug, flex_mode):
+    raster_tester.compare(input_1, input_2, pixel_threshold, upsample, downsample, compare_masked, no_error, debug, flex_mode)
 
 cli.add_command(compare)
 

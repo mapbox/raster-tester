@@ -8,7 +8,7 @@ with codecs_open('README.rst', encoding='utf-8') as f:
 
 
 setup(name='raster-tester',
-      version='0.2.0',
+      version='0.3.0',
       description=u"Tools for testing rasters",
       long_description=long_description,
       classifiers=[],
