@@ -79,13 +79,12 @@ def compare(srcpath1, srcpath2, max_px_diff=0, upsample=1, downsample=1, compare
             count2 = src2.count
             compareAlpha = 1
 
-            if not flex_mode:
-                props = ['count', 'crs', 'dtypes', 'driver', 'bounds', 'height', 'width', 'shape', 'nodatavals']
-            else:
+            if flex_mode and [count1, count2].count(3) != 0:
                 props = ['crs', 'driver', 'bounds', 'height', 'width', 'shape']
                 if src1.count * src2.count != 12 or src1.count + src2.count != 7:
                     exception_raiser("In flex mode, %s and %s must 3 and 4, or 4 and 3 bands respectively (received %s and %s)" % (srcpath1, srcpath2, src1.count, src2.count), no_stderr)
-
+            else:
+                props = ['count', 'crs', 'dtypes', 'driver', 'bounds', 'height', 'width', 'shape', 'nodatavals']
             propCompare = compare_properties(src1, src2, props)
 
             if propCompare:
