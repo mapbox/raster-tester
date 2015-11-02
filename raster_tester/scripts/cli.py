@@ -28,5 +28,17 @@ def compare(input_1, input_2, pixel_threshold, upsample, downsample, no_error, c
 
 cli.add_command(compare)
 
+@click.command("isempty")
+@click.argument("input_1", type=click.Path(exists=True))
+@click.option("--randomize", is_flag=True,
+    help='iterate through windows in a psuedorandom fashion')
+def isempty(input_1, randomize):
+    empty = raster_tester.is_empty.is_empty(input_1, randomize)
+    choices = ["is not empty", "is empty"]
+    click.echo("%s %s" % (input_1, choices[empty * 1]))
+    
+
+cli.add_command(isempty)
+
 if __name__ == "__main__":
     cli()

@@ -7,6 +7,8 @@ import rasterio as rio
 from rasterio.warp import reproject, RESAMPLING
 from rasterio import Affine
 
+import is_empty
+
 def affaux(up):
     return Affine(1, 0, 0, 0, -1, 0), Affine(up, 0, 0, 0, -up, 0)
 
