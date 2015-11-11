@@ -1,4 +1,4 @@
-import click
+import click, sys
 
 import raster_tester
 
@@ -30,12 +30,16 @@ cli.add_command(compare)
 
 @click.command("isempty")
 @click.argument("input_1", type=click.Path(exists=True))
+@click.option('--bidx', '-b', default=4,
+    help="Bands to blob [default = 4]")
 @click.option("--randomize", is_flag=True,
     help='iterate through windows in a psuedorandom fashion')
-def isempty(input_1, randomize):
-    empty = raster_tester.is_empty.is_empty(input_1, randomize)
+def isempty(input_1, randomize, bidx):
+    empty = raster_tester.is_empty.is_empty(input_1, randomize, bidx)
     choices = ["is not empty", "is empty"]
+    exits = [1, 0]
     click.echo("%s %s" % (input_1, choices[empty * 1]))
+    sys.exit(exits[empty * 1])
     
 
 cli.add_command(isempty)
