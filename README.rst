@@ -36,5 +36,17 @@ compare
       --flex-mode                    Allow comparison of masked RGB + RGBA
       --help                         Show this message and exit.
 
+isempty
+-------
+
+::
+
+    Usage: raster-tester isempty [OPTIONS] INPUT_1
+
+    Options:
+      -b, --bidx INTEGER            Bands to blob [default = 4]
+      --randomize                   Iterate through windows in a psuedorandom fashion
+      --help                        Show this message and exit.
+
 .. |Build Status| image:: https://magnum.travis-ci.com/mapbox/raster-tester.svg?token=Dkq56qQtBntqTfE3yeVy
    :target: https://magnum.travis-ci.com/mapbox/raster-tester
