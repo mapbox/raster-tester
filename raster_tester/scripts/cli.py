@@ -36,10 +36,15 @@ cli.add_command(compare)
     help='iterate through windows in a psuedorandom fashion')
 def isempty(input_1, randomize, bidx):
     empty = raster_tester.is_empty.is_empty(input_1, randomize, bidx)
-    choices = ["is not empty", "is empty"]
-    exits = [1, 0]
-    click.echo("%s %s" % (input_1, choices[empty * 1]))
-    sys.exit(exits[empty * 1])
+    exits = {
+        True: ("is empty", 0),
+        False: ("is not empty", 1)
+    }
+
+    message, eCode = exits[empty]
+
+    click.echo("%s %s" % (input_1, message))
+    sys.exit(eCode)
     
 
 cli.add_command(isempty)
