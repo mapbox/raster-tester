@@ -131,8 +131,8 @@ def compare(srcpath1, srcpath2, max_px_diff=0, upsample=1, downsample=1, compare
                 band2 = band2.astype(np.int16)
 
                 if compare_masked and src1.count == 4:
-                    band1[masked_1 == 0] = 0
-                    band2[masked_2 == 0] = 0
+                    band1[masked_1 != 255] = 0
+                    band2[masked_2 != 255] = 0
 
                 if upsample > 1:
                     toAff, frAff = affaux(upsample)
