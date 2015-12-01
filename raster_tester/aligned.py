@@ -16,11 +16,11 @@ def tiled(sources, equal_blocks=True):
                 if equal_blocks:
                     this_blocksize = (src.profile['blockxsize'],
                                       src.profile['blockysize'])
-                    if not blocksize:
-                        blocksize = this_blocksize
-                    else:
+                    if blocksize:
                         if blocksize != this_blocksize:
                             return (False, "Blocksizes are not equal")
+                    else:
+                        blocksize = this_blocksize
 
     return (True, "Tiling checks out")
 

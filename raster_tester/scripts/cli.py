@@ -73,7 +73,7 @@ cli.add_command(isaligned)
 
 @click.command("istiled")
 @click.argument('sources', required=True, nargs=-1)
-@click.option('--blocksize', is_flag=True, default=False,
+@click.option('--blocksize/--no-blocksize', is_flag=True, default=True,
               help="assert that sources are internally tiled")
 def istiled(sources, blocksize):
     result, msg = raster_tester.tiled(sources, blocksize)
