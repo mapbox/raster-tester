@@ -54,8 +54,38 @@ def isempty(input_1, randomize, bidx):
     click.echo("%s %s" % (input_1, message))
     sys.exit(eCode)
 
-
 cli.add_command(isempty)
+
+
+@click.command("isaligned")
+@click.argument('sources', required=True, nargs=-1)
+def isaligned(sources):
+    aligned, msg = raster_tester.aligned(sources)
+    if aligned:
+        click.echo("ok: {} are aligned ({})".format(', '.join(sources), msg))
+        sys.exit(0)
+    else:
+        click.echo("not ok: {} are not aligned ({})".format(', '.join(sources), msg))
+        sys.exit(1)
+
+cli.add_command(isaligned)
+
+
+@click.command("istiled")
+@click.argument('sources', required=True, nargs=-1)
+@click.option('--blocksize', is_flag=True, default=False,
+              help="assert that sources are internally tiled")
+def istiled(sources, blocksize):
+    result, msg = raster_tester.tiled(sources, blocksize)
+    if result:
+        click.echo("ok: {} are tiled ({})".format(', '.join(sources), msg))
+        sys.exit(0)
+    else:
+        click.echo("not ok: {} are not all tiled ({})".format(', '.join(sources), msg))
+        sys.exit(1)
+
+cli.add_command(istiled)
+
 
 if __name__ == "__main__":
     cli()
