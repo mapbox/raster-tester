@@ -43,7 +43,7 @@ cli.add_command(compare)
 @click.option("--randomize", is_flag=True,
               help='iterate through windows in a psuedorandom fashion')
 def isempty(input_1, randomize, bidx):
-    empty = raster_tester.is_empty(input_1, randomize, bidx)
+    empty = raster_tester.is_empty(input_1, randomize, bidx, )
     exits = {
         True: ("is empty", 0),
         False: ("is not empty", 1)
