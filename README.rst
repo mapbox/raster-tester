@@ -1,7 +1,7 @@
 raster-tester
 =============
 
-|Build Status|
+|Circle CI|
 
 ::
 
@@ -48,5 +48,5 @@ isempty
       --randomize                   Iterate through windows in a psuedorandom fashion
       --help                        Show this message and exit.
 
-.. |Build Status| image:: https://magnum.travis-ci.com/mapbox/raster-tester.svg?token=Dkq56qQtBntqTfE3yeVy
-   :target: https://magnum.travis-ci.com/mapbox/raster-tester
+.. |Circle CI| image:: https://circleci.com/gh/mapbox/raster-tester.svg?style=svg&circle-token=b160fc4bebd1e032df32fe8c4aff4bbea685701d
+   :target: https://circleci.com/gh/mapbox/raster-tester
