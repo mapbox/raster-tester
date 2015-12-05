@@ -27,7 +27,7 @@ def upsample_array(bidx, up, fr, to):
 
 def exception_raiser(message, no_stderr):
     if no_stderr:
-        click.echo("NOT OK - %s" % (message))
+        click.echo("not ok - %s" % (message))
         sys.exit(0)
     else:
         raise ValueError, message
@@ -144,4 +144,4 @@ def compare(srcpath1, srcpath2, max_px_diff=0, upsample=1, downsample=1, compare
                 if aboveThreshold:
                     exception_raiser('Band %s has %s pixels that vary by more than 16' % (bidx, difference), no_stderr)
 
-    click.echo("OK - %s is similar to within %s pixels of %s" % (srcpath1, max_px_diff, srcpath2))
+    click.echo("ok - %s is similar to within %s pixels of %s" % (srcpath1, max_px_diff, srcpath2))
