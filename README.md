@@ -1,6 +1,7 @@
+
 # raster-tester
 
-[![Build Status](https://magnum.travis-ci.com/mapbox/raster-tester.svg?token=Dkq56qQtBntqTfE3yeVy)](https://magnum.travis-ci.com/mapbox/raster-tester)
+[![Circle CI](https://circleci.com/gh/mapbox/raster-tester.svg?style=svg&circle-token=b160fc4bebd1e032df32fe8c4aff4bbea685701d)](https://circleci.com/gh/mapbox/raster-tester)
 
 ```
  _______________        _______________
