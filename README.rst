@@ -1,7 +1,7 @@
 raster-tester
 =============
 
-|Build Status|
+|Circle CI|
 
 ::
 
@@ -29,8 +29,8 @@ compare
                                      artifacts [default=1]
       --compare-masked               Only compare masks + unmasked areas of RGBA
                                      rasters
-      --no-error                     Compare in non stderr mode: echos "(OK|NOT
-                                     OK) - <input_1> is (within|not within)
+      --no-error                     Compare in non stderr mode: echos "(ok|not
+                                     ok) - <input_1> is (within|not within)
                                      <pixel-threshold> pixels of <input 2>"
       --debug                        Print ascii preview of errors
       --flex-mode                    Allow comparison of masked RGB + RGBA
@@ -48,5 +48,5 @@ isempty
       --randomize                   Iterate through windows in a psuedorandom fashion
       --help                        Show this message and exit.
 
-.. |Build Status| image:: https://magnum.travis-ci.com/mapbox/raster-tester.svg?token=Dkq56qQtBntqTfE3yeVy
-   :target: https://magnum.travis-ci.com/mapbox/raster-tester
+.. |Circle CI| image:: https://circleci.com/gh/mapbox/raster-tester.svg?style=svg&circle-token=b160fc4bebd1e032df32fe8c4aff4bbea685701d
+   :target: https://circleci.com/gh/mapbox/raster-tester
