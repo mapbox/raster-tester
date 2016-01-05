@@ -161,5 +161,5 @@ def compare(srcpath1, srcpath2, max_px_diff=0, upsample=1, downsample=1,
                     exception_raiser('Band %s has %s pixels that vary by more than 16' % (
                         bidx, difference), no_stderr)
 
-    click.echo("OK - %s is similar to within %s pixels of %s" %
+    click.echo("ok - %s is similar to within %s pixels of %s" %
                (srcpath1, max_px_diff, srcpath2))

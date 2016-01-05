@@ -5,7 +5,7 @@ import click
 
 def exception_raiser(message, no_stderr):
     if no_stderr:
-        click.echo("NOT OK - %s" % (message))
+        click.echo("not ok - %s" % (message))
         sys.exit(0)
     else:
         raise ValueError(message)

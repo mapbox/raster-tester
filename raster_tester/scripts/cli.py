@@ -21,7 +21,7 @@ def cli():
 @click.option("--compare-masked", is_flag=True,
               help='Only compare masks + unmasked areas of RGBA rasters')
 @click.option("--no-error", is_flag=True,
-              help='Compare in non stderr mode: echos "(OK|NOT OK) - <input_1> is (within|not within) <pixel-threshold> pixels of <input 2>"')
+              help='Compare in non stderr mode: echos "(ok|not ok) - <input_1> is (within|not within) <pixel-threshold> pixels of <input 2>"')
 @click.option("--debug", is_flag=True,
               help='Print ascii preview of errors')
 @click.option("--flex-mode", is_flag=True,
