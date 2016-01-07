@@ -87,5 +87,19 @@ def istiled(sources, blocksize):
 cli.add_command(istiled)
 
 
+@click.command("safe-extent")
+@click.argument('sources', required=True, nargs=-1)
+def safe_extent(sources):
+    result, msg = raster_tester.safe_extent(sources)
+    if result:
+        click.echo("ok: extents ok ({})".format(msg))
+        sys.exit(0)
+    else:
+        click.echo("not ok: extent not safe ({})".format(msg))
+        sys.exit(1)
+
+cli.add_command(safe_extent)
+
+
 if __name__ == "__main__":
     cli()
