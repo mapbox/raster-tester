@@ -1,6 +1,6 @@
 machine:
     python:
-        version: 2.7.10
+        version: 2.7.11
 
 dependencies:
     pre:
@@ -16,3 +16,7 @@ dependencies:
 test:
     override:
         - py.test --cov raster_tester --cov-report term-missing --ignore=venv
+    post:
+        - codecov -t afb96efd-4a17-4272-a1bf-33317cad5462
+        - codecov
+

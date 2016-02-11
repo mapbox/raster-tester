@@ -1,7 +1,7 @@
 raster-tester
 =============
 
-|Circle CI|
+|PyPI| |Circle CI| |codecov.io|
 
 ::
 
@@ -48,5 +48,9 @@ isempty
       --randomize                   Iterate through windows in a psuedorandom fashion
       --help                        Show this message and exit.
 
-.. |Circle CI| image:: https://circleci.com/gh/mapbox/raster-tester.svg?style=svg&circle-token=b160fc4bebd1e032df32fe8c4aff4bbea685701d
+.. |PyPI| image:: https://img.shields.io/pypi/v/raster-tester.svg
+   :target: 
+.. |Circle CI| image:: https://circleci.com/gh/mapbox/raster-tester.svg?style=shield&circle-token=b160fc4bebd1e032df32fe8c4aff4bbea685701d
    :target: https://circleci.com/gh/mapbox/raster-tester
+.. |codecov.io| image:: https://codecov.io/github/mapbox/raster-tester/coverage.svg?branch=master&token=Gz7rJmDH5d
+   :target: https://codecov.io/github/mapbox/raster-tester?branch=master

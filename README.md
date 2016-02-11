@@ -1,7 +1,7 @@
 
 # raster-tester
 
-[![Circle CI](https://circleci.com/gh/mapbox/raster-tester.svg?style=svg&circle-token=b160fc4bebd1e032df32fe8c4aff4bbea685701d)](https://circleci.com/gh/mapbox/raster-tester)
+[![PyPI](https://img.shields.io/pypi/v/raster-tester.svg)]() [![Circle CI](https://circleci.com/gh/mapbox/raster-tester.svg?style=shield&circle-token=b160fc4bebd1e032df32fe8c4aff4bbea685701d)](https://circleci.com/gh/mapbox/raster-tester) [![codecov.io](https://codecov.io/github/mapbox/raster-tester/coverage.svg?branch=master&token=Gz7rJmDH5d)](https://codecov.io/github/mapbox/raster-tester?branch=master)
 
 ```
  _______________        _______________
