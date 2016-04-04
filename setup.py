@@ -25,7 +25,7 @@ setup(name='raster-tester',
           'rasterio'
       ],
       extras_require={
-          'test': ['pytest', 'pytest-cov'],
+          'test': ['pytest', 'pytest-cov', 'codecov'],
       },
       entry_points="""
       [console_scripts]

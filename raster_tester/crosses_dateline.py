@@ -8,10 +8,12 @@ def winding_order(boundsArr):
     returns False if CCW; True is CW
     (ie, it crosses the dateline and is inverted when unprojected)
     '''
-    EPSLN = 1.0e-10
     # Add EPSLN to the first point to catch exact rectangles
+    EPSLN = 1.0e-10
     boundsArr[0] += EPSLN
+
     delta = np.roll(boundsArr, -1, 0) - boundsArr
+
     return np.sum(delta[:, 0] * delta[:, 1]) > 0
 
 
@@ -32,6 +34,11 @@ def densify(boundsArr, dens=4):
 
 
 def make_bounds_array(bounds):
+    '''
+    Array of raster bounds
+    in counter-clockwise
+    fashion
+    '''
     return np.array([
         [bounds.left, bounds.bottom],
         [bounds.right, bounds.bottom],
@@ -40,16 +47,21 @@ def make_bounds_array(bounds):
         ])
 
 
+def transform_bounds(boundsArr, crs):
+    return np.dstack(warp.transform(
+            crs,
+            {'init': 'epsg:4326'},
+            boundsArr[:, 0],
+            boundsArr[:, 1]))[0]
+
+
 def crosses_dateline(fpath):
     '''
     Checks if a raster crosses the dateline after unprojection to epsg 4326
     '''
     with rio.open(fpath) as src:
         denseBounds = densify(make_bounds_array(src.bounds))
-        unprojectedBounds = warp.transform(
-            src.crs,
-            {'init': 'epsg:4326'},
-            denseBounds[:, 0],
-            denseBounds[:, 1])
 
-        return winding_order(np.dstack(unprojectedBounds)[0])
+        unprojectedBounds = transform_bounds(denseBounds, src.crs)
+
+        return winding_order(unprojectedBounds)
