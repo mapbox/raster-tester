@@ -48,6 +48,9 @@ def make_bounds_array(bounds):
 
 
 def transform_bounds(boundsArr, crs):
+    if not crs:
+        raise ValueError('Input raster must have a CRS')
+
     return np.dstack(warp.transform(
             crs,
             {'init': 'epsg:4326'},
@@ -61,7 +64,6 @@ def crosses_dateline(fpath):
     '''
     with rio.open(fpath) as src:
         denseBounds = densify(make_bounds_array(src.bounds))
-
         unprojectedBounds = transform_bounds(denseBounds, src.crs)
 
         return winding_order(unprojectedBounds)
