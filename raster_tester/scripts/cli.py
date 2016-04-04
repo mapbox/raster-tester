@@ -86,6 +86,18 @@ def istiled(sources, blocksize):
 
 cli.add_command(istiled)
 
+@click.command('crossesdateline')
+@click.argument('input', type=click.Path(exists=True))
+def crossesdateline(input):
+    result = raster_tester.crosses_dateline(input)
+    if result:
+        click.echo('%s crosses dateline; exit 1' % (input))
+        sys.exit(1)
+    else:
+        click.echo('%s does not cross dateline; exit 0' % (input))
+        sys.exit(0)
+
+cli.add_command(crossesdateline)
 
 if __name__ == "__main__":
     cli()
