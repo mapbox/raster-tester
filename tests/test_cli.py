@@ -102,5 +102,14 @@ def test_isnotempty():
     assert result.output_bytes == "%s is not empty\n" % (fakeEmpty)
     tester.cleanup()
 
+def test_does_not_cross_dateline():
+    runner = CliRunner()
+    result = runner.invoke(cli, ['crossesdateline', 'tests/fixtures/not_cross_dateline.tif'])
+    assert result.exit_code == 0
+    assert result.output == 'tests/fixtures/not_cross_dateline.tif does not cross dateline; exit 0\n'
 
-    
+def test_does_cross_dateline():
+    runner = CliRunner()
+    result = runner.invoke(cli, ['crossesdateline', 'tests/fixtures/crosses_dateline.tif'])
+    assert result.exit_code == 1
+    assert result.output == 'tests/fixtures/crosses_dateline.tif crosses dateline; exit 1\n'
