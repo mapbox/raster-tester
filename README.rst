@@ -13,8 +13,22 @@ raster-tester
     |_|_|_|_|_|_|_|_| ===> |_|_|_|_|_|_|_|_|
     |_|_|_|_|_|_|_|_|      |_|_|_|_|_|_|_|_|
 
-compare
--------
+::
+
+    raster-tester [OPTIONS] COMMAND [ARGS]...
+
+    Options:
+      --help  Show this message and exit.
+
+    Commands:
+      compare
+      crossesdateline
+      isaligned
+      isempty
+      istiled
+
+``compare``
+-----------
 
 ::
 
@@ -36,16 +50,47 @@ compare
       --flex-mode                    Allow comparison of masked RGB + RGBA
       --help                         Show this message and exit.
 
-isempty
--------
+``crossesdateline``
+-------------------
+
+::
+
+    Usage: raster-tester crossesdateline [OPTIONS] INPUT
+
+    Options:
+      --help  Show this message and exit.
+
+``isaligned``
+-------------
+
+::
+
+    Usage: raster-tester isaligned [OPTIONS] SOURCES...
+
+    Options:
+      --help  Show this message and exit.
+
+``isempty``
+-----------
 
 ::
 
     Usage: raster-tester isempty [OPTIONS] INPUT_1
 
     Options:
-      -b, --bidx INTEGER            Bands to blob [default = 4]
+      -b, --bidx INTEGER            Check one band
       --randomize                   Iterate through windows in a psuedorandom fashion
+      --help                        Show this message and exit.
+
+``istiled``
+-----------
+
+::
+
+    Usage: raster-tester istiled [OPTIONS] SOURCES...
+
+    Options:
+      --blocksize / --no-blocksize  assert that sources are internally tiled
       --help                        Show this message and exit.
 
 .. |PyPI| image:: https://img.shields.io/pypi/v/raster-tester.svg
