@@ -113,3 +113,10 @@ def test_does_cross_dateline():
     result = runner.invoke(cli, ['crossesdateline', 'tests/fixtures/crosses_dateline.tif'])
     assert result.exit_code == 1
     assert result.output == 'tests/fixtures/crosses_dateline.tif crosses dateline; exit 1\n'
+
+def test_does_not_cross_dateline_square():
+    runner = CliRunner()
+    result = runner.invoke(cli, ['crossesdateline', 'tests/fixtures/not_cross_dateline_square.tif'])
+    assert result.exit_code == 0
+
+    assert result.output == 'tests/fixtures/not_cross_dateline_square.tif does not cross dateline; exit 0\n'

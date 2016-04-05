@@ -8,13 +8,10 @@ def winding_order(boundsArr):
     returns False if CCW; True is CW
     (ie, it crosses the dateline and is inverted when unprojected)
     '''
-    # Add EPSLN to the first point to catch exact rectangles
-    EPSLN = 1.0e-10
-    boundsArr[0] += EPSLN
+    shiftBounds = np.roll(boundsArr, -1, 0)
+    delta = (shiftBounds[:, 0] - boundsArr[:, 0]) * (shiftBounds[:, 1] + boundsArr[:, 1])
 
-    delta = np.roll(boundsArr, -1, 0) - boundsArr
-
-    return np.sum(delta[:, 0] * delta[:, 1]) > 0
+    return np.sum(delta) > 0
 
 
 def densify(boundsArr, dens=4):

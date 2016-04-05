@@ -14,12 +14,13 @@ def test_densification_count():
 
 
 def test_4326_crossing():
-    crs = from_epsg('4326')
+    crs = from_epsg('4322')
 
-    boundsArr = densify(make_bounds_array(BoundingBox(170., 45., -170., 50.)))
-    assert winding_order(boundsArr) == True
+    boundsArr = densify(make_bounds_array(BoundingBox(170., 45., 190., 50.)))
+    assert winding_order(boundsArr) == False
 
     transformedBounds = transform_bounds(boundsArr, crs)
+
     assert winding_order(transformedBounds) == True
 
 
