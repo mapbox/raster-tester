@@ -8,13 +8,10 @@ def winding_order(boundsArr):
     returns False if CCW; True is CW
     (ie, it crosses the dateline and is inverted when unprojected)
     '''
-    # Add EPSLN to the first point to catch exact rectangles
-    EPSLN = 1.0e-10
-    boundsArr[0] += EPSLN
+    shift = np.roll(boundsArr, -1, 0)
+    delta = (shift[:, 0] - boundsArr[:, 0]) * (shift[:, 1] + boundsArr[:, 1])
 
-    delta = np.roll(boundsArr, -1, 0) - boundsArr
-
-    return np.sum(delta[:, 0] * delta[:, 1]) > 0
+    return np.sum(delta) > 0
 
 
 def densify(boundsArr, dens=4):
@@ -64,6 +61,7 @@ def crosses_dateline(fpath):
     '''
     with rio.open(fpath) as src:
         denseBounds = densify(make_bounds_array(src.bounds))
+
         unprojectedBounds = transform_bounds(denseBounds, src.crs)
 
         return winding_order(unprojectedBounds)
