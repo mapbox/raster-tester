@@ -8,8 +8,8 @@ def winding_order(boundsArr):
     returns False if CCW; True is CW
     (ie, it crosses the dateline and is inverted when unprojected)
     '''
-    shift = np.roll(boundsArr, -1, 0)
-    delta = (shift[:, 0] - boundsArr[:, 0]) * (shift[:, 1] + boundsArr[:, 1])
+    shiftBounds = np.roll(boundsArr, -1, 0)
+    delta = (shiftBounds[:, 0] - boundsArr[:, 0]) * (shiftBounds[:, 1] + boundsArr[:, 1])
 
     return np.sum(delta) > 0
 
@@ -61,7 +61,6 @@ def crosses_dateline(fpath):
     '''
     with rio.open(fpath) as src:
         denseBounds = densify(make_bounds_array(src.bounds))
-
         unprojectedBounds = transform_bounds(denseBounds, src.crs)
 
         return winding_order(unprojectedBounds)
