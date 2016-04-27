@@ -5,6 +5,7 @@ import click
 import numpy as np
 import rasterio
 from rasterio.warp import reproject, RESAMPLING
+from rasterio.coords import BoundingBox
 
 from .utils import exception_raiser
 
@@ -54,12 +55,25 @@ def make_fill_array(height, width, downsample, dtype):
     )
 
 
-def compare_properties(src1, src2, properties):
+def compare_properties(src1, src2, properties, tol=1e-6):
     noMatch = []
     for prop in properties:
         a = src1.__getattribute__(prop)
         b = src2.__getattribute__(prop)
-        if a != b:
+        equal = True
+        if isinstance(a, BoundingBox) and isinstance(b, BoundingBox):
+            for coord_a, coord_b in zip(tuple(a), tuple(b)):
+                if abs(coord_a - coord_b) > tol:
+                    equal = False
+                    break
+        elif isinstance(a, float) and isinstance(b, float):
+            if abs(a - b) > tol:
+                equal = False
+        else:
+            if a != b:
+                equal = False
+
+        if not equal:
             noMatch.append({
                 prop: {
                     'src1': a,
