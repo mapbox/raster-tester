@@ -3,22 +3,22 @@ import raster_tester
 import numpy as np
 
 
-class AttributeMocker:
+def mockobj(attributes, values):
+    class Container:
+        pass
 
-    def __init__(self, attributes, setTo):
-        for att, val in zip(attributes, setTo):
-            setattr(self, att, val)
-
-    def __getattribute__(self, attribute):
-        return getattr(self, attribute)
+    obj = Container()
+    for att, val in zip(attributes, values):
+        setattr(obj, att, val)
+    return obj
 
 
 def test_attribute_compare_ok():
     props = ['count', 'crs', 'dtypes', 'driver', 'bounds',
              'height', 'width', 'shape', 'nodatavals']
-    values = [i for i in xrange(len(props))]
-    src1 = AttributeMocker(props, values)
-    src2 = AttributeMocker(props, values)
+    values = [i for i in range(len(props))]
+    src1 = mockobj(props, values)
+    src2 = mockobj(props, values)
     compared = raster_tester.compare_properties(src1, src2, props)
     assert not compared
 
@@ -26,10 +26,10 @@ def test_attribute_compare_ok():
 def test_attribute_compare_notok():
     props = ['count', 'crs', 'dtypes', 'driver', 'bounds',
              'height', 'width', 'shape', 'nodatavals']
-    values = [i for i in xrange(len(props))]
-    src1 = AttributeMocker(props, values)
+    values = [i for i in range(len(props))]
+    src1 = mockobj(props, values)
     values[3] = 0
-    src2 = AttributeMocker(props, values)
+    src2 = mockobj(props, values)
     compared = raster_tester.compare_properties(src1, src2, props)
     assert compared == [{'driver': {'src1': 3, 'src2': 0}}]
 

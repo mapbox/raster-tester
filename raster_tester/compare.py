@@ -4,7 +4,11 @@ from affine import Affine
 import click
 import numpy as np
 import rasterio
-from rasterio.warp import reproject, RESAMPLING
+from rasterio.warp import reproject
+try:
+    from rasterio.warp import RESAMPLING
+except ImportError:
+    from rasterio.enums import Resampling as RESAMPLING
 from rasterio.coords import BoundingBox
 
 from .utils import exception_raiser
