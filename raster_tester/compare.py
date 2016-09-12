@@ -62,8 +62,8 @@ def make_fill_array(height, width, downsample, dtype):
 def compare_properties(src1, src2, properties, tol=1e-6):
     noMatch = []
     for prop in properties:
-        a = src1.__getattribute__(prop)
-        b = src2.__getattribute__(prop)
+        a = getattr(src1, prop)
+        b = getattr(src2, prop)
         equal = True
         if isinstance(a, BoundingBox) and isinstance(b, BoundingBox):
             for coord_a, coord_b in zip(tuple(a), tuple(b)):
