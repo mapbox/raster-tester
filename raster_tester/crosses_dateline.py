@@ -2,6 +2,21 @@ import rasterio as rio
 from rasterio import warp
 import numpy as np
 
+def _wrap_x_coord(xcoords):
+    '''
+    Wraps longitude coords beyond -180 / 180
+
+    Parameters
+    -----------
+    xcoords: ndarray or value
+        coordinate or coordinates to wrap.
+
+    Returns
+    --------
+    wrapped: ndarray or value
+        wrapped coordinate(s)
+    '''
+    return ((xcoords + 180) % 360) - 180
 
 def winding_order(boundsArr):
     '''
@@ -48,11 +63,16 @@ def transform_bounds(boundsArr, crs):
     if not crs:
         raise ValueError('Input raster must have a CRS')
 
-    return np.dstack(warp.transform(
-            crs,
-            {'init': 'epsg:4326'},
-            boundsArr[:, 0],
-            boundsArr[:, 1]))[0]
+    if 'init' in crs and crs['init'] == 'epsg:4326':
+        boundsArr[:, 0] = _wrap_x_coord(boundsArr[:, 0])
+    else:
+        boundsArr = np.dstack(warp.transform(
+                crs,
+                {'init': 'epsg:4326'},
+                boundsArr[:, 0],
+                boundsArr[:, 1]))[0]
+
+    return boundsArr
 
 
 def crosses_dateline(fpath):

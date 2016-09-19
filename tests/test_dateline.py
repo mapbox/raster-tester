@@ -1,7 +1,6 @@
 from raster_tester import make_bounds_array, densify, transform_bounds, winding_order
 
 from rasterio.coords import BoundingBox
-from rasterio.crs import from_epsg
 
 import pytest
 
@@ -14,7 +13,7 @@ def test_densification_count():
 
 
 def test_4326_crossing():
-    crs = from_epsg('4322')
+    crs = {'init': 'epsg:4326'}
 
     boundsArr = densify(make_bounds_array(BoundingBox(170., 45., 190., 50.)))
     assert winding_order(boundsArr) == False
@@ -25,7 +24,7 @@ def test_4326_crossing():
 
 
 def test_4326_not_crossing():
-    crs = from_epsg('4326')
+    crs = {'init': 'epsg:4326'}
 
     boundsArr = densify(make_bounds_array(BoundingBox(-120., 45., -115., 50.)))
 
