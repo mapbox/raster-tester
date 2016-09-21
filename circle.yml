@@ -4,12 +4,12 @@ dependencies:
         - sudo apt-get update
         - sudo apt-get -y --no-install-recommends --force-yes install python-numpy libgdal1h gdal-bin libgdal-dev
     override:
+        - pip install tox tox-pyenv
+        - pyenv local 2.7.10 3.4.3 3.5.0
         - pip install -U pip
         - pip install numpy
         - pip install -r requirements.txt
         - pip install -e ".[test]"
-        - pip install tox tox-pyenv
-        - pyenv local 2.7.10 3.4.3 3.5.0
 
 test:
     post:
