@@ -6,7 +6,7 @@ def tiled(sources, equal_blocks=True):
     optionally assert that their block sizes are equal (default: True)
     """
     blocksize = None
-    with rasterio.drivers():
+    with rasterio.Env():
         for source in sources:
             with rasterio.open(source) as src:
 
@@ -32,7 +32,7 @@ def aligned(sources):
     """
     atransform = None
     shape = None
-    with rasterio.drivers():
+    with rasterio.Env():
         for source in sources:
             with rasterio.open(source) as src:
 
