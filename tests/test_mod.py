@@ -93,3 +93,47 @@ def test_array_compare_rand_overthresh():
         testArray1.astype(np.uint16), testArray2.astype(np.uint16), 0, 16)
 
     assert not overthresh
+
+
+def test_attribute_compare_floats():
+    props = ['test']
+    values = [1.0]
+    src1 = mockobj(props, values)
+    values = [1.1]
+    src2 = mockobj(props, values)
+    compared = raster_tester.compare_properties(src1, src2, props)
+    assert compared == [{'test': {'src1': 1.0, 'src2': 1.1}}]
+
+
+def test_attribute_compare_crs():
+    from rasterio.crs import CRS
+    props = ['crs']
+    values = [CRS({})]
+    src1 = mockobj(props, values)
+    values = [CRS({})]
+    src2 = mockobj(props, values)
+    compared = raster_tester.compare_properties(src1, src2, props)
+    assert not compared
+
+
+def test_attribute_compare_crs():
+    from rasterio.crs import CRS
+    props = ['crs']
+    values = [CRS({})]
+    src1 = mockobj(props, values)
+    values = [CRS(init='EPSG:4326')]
+    src2 = mockobj(props, values)
+    compared = raster_tester.compare_properties(src1, src2, props)
+    assert 'crs' in compared[0].keys()
+
+
+def test_attribute_compare_bounds():
+    from rasterio.coords import BoundingBox
+    props = ['bounds']
+    values = [BoundingBox(0, 0, 1, 1)]
+    src1 = mockobj(props, values)
+    values = [BoundingBox(0, 0, 2, 2)]
+    src2 = mockobj(props, values)
+    compared = raster_tester.compare_properties(src1, src2, props)
+    assert compared == [{'bounds': {'src1': BoundingBox(left=0, bottom=0, right=1, top=1),
+                                    'src2': BoundingBox(left=0, bottom=0, right=2, top=2)}}]
