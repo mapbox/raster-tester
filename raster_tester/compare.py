@@ -6,6 +6,10 @@ import numpy as np
 import rasterio
 from rasterio.warp import reproject
 try:
+    from rasterio.crs import CRS
+except:
+    CRS = None
+try:
     from rasterio.warp import RESAMPLING
 except ImportError:
     from rasterio.enums import Resampling as RESAMPLING
@@ -31,6 +35,7 @@ def upsample_array(bidx, up, fr, to):
         resampling=RESAMPLING.bilinear)
 
     return upBidx
+
 
 def array_compare(arr1, arr2, valueFilter=0, countFilter=0, debug=False):
     diffArr = np.abs(arr1.astype(np.int64) -
@@ -72,6 +77,9 @@ def compare_properties(src1, src2, properties, tol=1e-6):
                     break
         elif isinstance(a, float) and isinstance(b, float):
             if abs(a - b) > tol:
+                equal = False
+        elif CRS and isinstance(a, CRS) and isinstance(b, CRS):
+            if a.to_string() != b.to_string():
                 equal = False
         else:
             if a != b:
