@@ -1,10 +1,19 @@
+=============
 raster-tester
 =============
 
-|PyPI| |Circle CI| |codecov.io|
+.. image:: https://img.shields.io/pypi/v/raster-tester.svg
+   :target: https://circleci.com/gh/mapbox/raster-tester
 
-::
 
+.. image:: https://circleci.com/gh/mapbox/raster-tester.svg?style=svg&circle-token=b160fc4bebd1e032df32fe8c4aff4bbea685701d
+   :target: https://circleci.com/gh/mapbox/raster-tester
+
+.. image:: https://codecov.io/gh/mapbox/raster-tester/branch/master/graph/badge.svg?token=Gz7rJmDH5d
+   :target: https://codecov.io/gh/mapbox/raster-tester
+
+
+.. code-block:: console
      _______________        _______________
     |_|_|_|_|_|_|_|_|      |_|_|_|_|_|_|_|_|
     |_|_|_|_|_|_|_|_| HIRU |_|_|_|_|_|_|_|_|
@@ -13,7 +22,7 @@ raster-tester
     |_|_|_|_|_|_|_|_| ===> |_|_|_|_|_|_|_|_|
     |_|_|_|_|_|_|_|_|      |_|_|_|_|_|_|_|_|
 
-::
+.. code-block:: console
 
     raster-tester [OPTIONS] COMMAND [ARGS]...
 
@@ -30,7 +39,7 @@ raster-tester
 ``compare``
 -----------
 
-::
+.. code-block:: console
 
     Usage: raster-tester compare [OPTIONS] INPUT_1 INPUT_2
 
@@ -53,7 +62,7 @@ raster-tester
 ``crossesdateline``
 -------------------
 
-::
+.. code-block:: console
 
     Usage: raster-tester crossesdateline [OPTIONS] INPUT
 
@@ -63,7 +72,7 @@ raster-tester
 ``isaligned``
 -------------
 
-::
+.. code-block:: console
 
     Usage: raster-tester isaligned [OPTIONS] SOURCES...
 
@@ -73,7 +82,7 @@ raster-tester
 ``isempty``
 -----------
 
-::
+.. code-block:: console
 
     Usage: raster-tester isempty [OPTIONS] INPUT_1
 
@@ -85,17 +94,10 @@ raster-tester
 ``istiled``
 -----------
 
-::
+.. code-block:: console
 
     Usage: raster-tester istiled [OPTIONS] SOURCES...
 
     Options:
       --blocksize / --no-blocksize  assert that sources are internally tiled
       --help                        Show this message and exit.
-
-.. |PyPI| image:: https://img.shields.io/pypi/v/raster-tester.svg
-   :target: 
-.. |Circle CI| image:: https://circleci.com/gh/mapbox/raster-tester.svg?style=shield&circle-token=b160fc4bebd1e032df32fe8c4aff4bbea685701d
-   :target: https://circleci.com/gh/mapbox/raster-tester
-.. |codecov.io| image:: https://codecov.io/github/mapbox/raster-tester/coverage.svg?branch=master&token=Gz7rJmDH5d
-   :target: https://codecov.io/github/mapbox/raster-tester?branch=master
