@@ -14,9 +14,6 @@ common: &common
         name: run tox
         command: ~/.local/bin/tox
     - run:
-        name: run tox
-        command: tox
-    - run:
         name: upload coverage report
         command: |
           if [[ "$UPLOAD_COVERAGE" != 0 ]]; then
