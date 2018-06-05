@@ -5,7 +5,7 @@ common: &common
   steps:
     - checkout
     - run: sudo apt-get -y --no-install-recommends --force-yes install gdal-bin libgdal-dev
-    - run: sudo pip install virtualenv
+    - run: sudo pip install virtualenv codecov
     - run: virtualenv venv
     - run:
         name: install dependencies
