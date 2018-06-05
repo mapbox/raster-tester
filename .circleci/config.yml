@@ -1,0 +1,44 @@
+version: 2
+
+common: &common
+  working_directory: ~/raster-tester
+  steps:
+    - checkout
+    - run: sudo pip install -U pip
+    - run: sudo pip install virtualenv
+    - run: virtualenv venv
+    - run:
+        name: install dependencies
+        command: pip install tox
+    - run:
+        name: run tox
+        command: tox
+    - run:
+        name: upload coverage report
+        command: |
+          if [[ "$UPLOAD_COVERAGE" != 0 ]]; then
+            codecov -t afb96efd-4a17-4272-a1bf-33317cad5462
+          fi
+
+jobs:
+  "python-2.7":
+    <<: *common
+    docker:
+      - image: circleci/python:2.7
+        environment:
+          TOXENV=py27
+
+  "python-3.6":
+    <<: *common
+    docker:
+      - image: circleci/python:3.6.5
+        environment:
+          TOXENV=py36
+          UPLOAD_COVERAGE=1
+
+workflows:
+  version: 2
+  build:
+    jobs:
+      - "python-2.7"
+      - "python-3.6"
