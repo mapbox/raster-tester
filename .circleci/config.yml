@@ -5,11 +5,11 @@ common: &common
   steps:
     - checkout
     - run: sudo apt-get -y --no-install-recommends --force-yes install gdal-bin libgdal-dev
-    - run: sudo pip install virtualenv codecov
+    - run: sudo pip install virtualenv
     - run: virtualenv venv
     - run:
         name: install dependencies
-        command: pip install --user tox
+        command: pip install --user tox codecov
     - run:
         name: run tox
         command: ~/.local/bin/tox
