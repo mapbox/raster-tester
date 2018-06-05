@@ -4,12 +4,11 @@ common: &common
   working_directory: ~/raster-tester
   steps:
     - checkout
-    - run: sudo pip install -U pip
     - run: sudo pip install virtualenv
     - run: virtualenv venv
     - run:
         name: install dependencies
-        command: pip install tox
+        command: pip install --user tox
     - run:
         name: run tox
         command: tox
