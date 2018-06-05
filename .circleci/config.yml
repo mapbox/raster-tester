@@ -16,8 +16,8 @@ common: &common
     - run:
         name: upload coverage report
         command: |
-          if [[ "$UPLOAD_COVERAGE" != 0 ]]; then
-            codecov -t afb96efd-4a17-4272-a1bf-33317cad5462
+          if [[ "$UPLOAD_COVERAGE" == 1 ]]; then
+             ~/.local/bin/codecov -t afb96efd-4a17-4272-a1bf-33317cad5462
           fi
 
 jobs:
