@@ -11,6 +11,9 @@ common: &common
         command: pip install --user tox
     - run:
         name: run tox
+        command: ~/.local/bin/tox
+    - run:
+        name: run tox
         command: tox
     - run:
         name: upload coverage report
