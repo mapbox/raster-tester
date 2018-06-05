@@ -28,15 +28,15 @@ jobs:
     docker:
       - image: circleci/python:2.7
         environment:
-          TOXENV=py27
+          - TOXENV=py27
 
   "python-3.6":
     <<: *common
     docker:
       - image: circleci/python:3.6.5
         environment:
-          TOXENV=py36
-          UPLOAD_COVERAGE=1
+          - TOXENV=py36
+          - UPLOAD_COVERAGE=1
 
 workflows:
   version: 2
