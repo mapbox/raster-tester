@@ -1,6 +1,8 @@
+
+import numpy as np
+
 import rasterio as rio
 from rasterio import warp
-import numpy as np
 
 def _wrap_x_coord(xcoords):
     '''
@@ -17,6 +19,7 @@ def _wrap_x_coord(xcoords):
         wrapped coordinate(s)
     '''
     return ((xcoords + 180) % 360) - 180
+
 
 def winding_order(boundsArr):
     '''

@@ -1,18 +1,14 @@
-#!/usr/bin/env python
 
-from affine import Affine
 import click
 import numpy as np
+
+from affine import Affine
+
 import rasterio
+from rasterio.crs import CRS
 from rasterio.warp import reproject
-try:
-    from rasterio.crs import CRS
-except:
-    CRS = None
-try:
-    from rasterio.warp import RESAMPLING
-except ImportError:
-    from rasterio.enums import Resampling as RESAMPLING
+
+from rasterio.enums import Resampling as RESAMPLING
 from rasterio.coords import BoundingBox
 
 from .utils import exception_raiser
@@ -116,13 +112,15 @@ def compare(srcpath1, srcpath2, max_px_diff=0, upsample=1, downsample=1,
                             "In flex mode, %s and %s must 3 and 4, or 4 and 3 bands "
                             "respectively (received %s and %s)" % (
                                 srcpath1, srcpath2, src1.count, src2.count), no_stderr)
+                        return
                 else:
                     props = ['count', 'crs', 'dtypes', 'driver', 'bounds',
-                            'height', 'width', 'shape', 'nodatavals']
+                             'height', 'width', 'shape', 'nodatavals']
                 propCompare = compare_properties(src1, src2, props)
 
                 if propCompare:
                     exception_raiser(propCompare, no_stderr)
+                    return
 
                 if compare_masked and src1.count == 4 and not flex_mode:
                     # create arrays for decimated reading
@@ -140,6 +138,7 @@ def compare(srcpath1, srcpath2, max_px_diff=0, upsample=1, downsample=1,
                     if aboveThreshold:
                         exception_raiser(
                             'Mask has %s pixels that vary by more than 16' % (difference), no_stderr)
+                        return
 
                 elif compare_masked and flex_mode:
                     masked_1 = make_fill_array(
@@ -158,6 +157,7 @@ def compare(srcpath1, srcpath2, max_px_diff=0, upsample=1, downsample=1,
                         exception_raiser(
                             'Mask has %s pixels that vary by more than 16' % (difference),
                             no_stderr)
+                        return
 
                 for bidx in range(1, count1 + compareAlpha):
                     # create arrays for decimated reading
@@ -187,6 +187,7 @@ def compare(srcpath1, srcpath2, max_px_diff=0, upsample=1, downsample=1,
                     if aboveThreshold:
                         exception_raiser('Band %s has %s pixels that vary by more than 16' % (
                             bidx, difference), no_stderr)
+                        return
 
     click.echo("ok - %s is similar to within %s pixels of %s" %
                (srcpath1, max_px_diff, srcpath2))

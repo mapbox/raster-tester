@@ -1,2 +1,2 @@
 click
-rasterio
+rasterio>=1.0b1
