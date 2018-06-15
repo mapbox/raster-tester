@@ -1,5 +1,5 @@
-#!/usr/bin/env python
 import rasterio
+
 
 def tiled(sources, equal_blocks=True):
     """ Tests if raster sources have the same tiling
@@ -10,7 +10,7 @@ def tiled(sources, equal_blocks=True):
         for source in sources:
             with rasterio.open(source) as src:
 
-                if not src.profile['tiled']:
+                if not src.is_tiled:
                     return (False, "Source(s) are not internally tiled")
 
                 if equal_blocks:
@@ -37,10 +37,10 @@ def aligned(sources):
             with rasterio.open(source) as src:
 
                 if atransform:
-                    if src.affine != atransform:
+                    if src.transform != atransform:
                         return (False, "Affine transforms are not aligned")
                 else:
-                    atransform = src.affine
+                    atransform = src.transform
 
                 if shape:
                     if src.shape != shape:

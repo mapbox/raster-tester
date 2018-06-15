@@ -1,4 +1,6 @@
+
 from click.testing import CliRunner
+
 from raster_tester.scripts.cli import cli
 import raster_tester
 

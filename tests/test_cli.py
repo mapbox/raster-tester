@@ -1,4 +1,3 @@
-import os, shutil
 
 from click.testing import CliRunner
 from raster_tester.scripts.cli import cli
@@ -10,6 +9,7 @@ from rasterio import Affine
 
 
 def make_fake(path, empty):
+    """Create a fake dataset."""
     crOptions = {
         'count': 4,
         'crs': {'init': u'epsg:3857'},
@@ -35,51 +35,79 @@ def make_fake(path, empty):
 
 
 def test_cli_okcompare():
+    """Shoult exit 0: rasters are equals."""
     runner = CliRunner()
-    result = runner.invoke(cli, ['compare', 'tests/expected/blobby.tif', 'tests/fixtures/notblobby.tif', '--upsample', '8', '--compare-masked', '--downsample', '64'])
+    result = runner.invoke(cli, ['compare', 'tests/expected/blobby.tif',
+                                 'tests/fixtures/notblobby.tif',
+                                 '--upsample', '8',
+                                 '--compare-masked', '--downsample', '64'])
     assert result.exit_code == 0
 
 
 def test_cli_okcompare_bad():
+    """Shoult exit 1: rasters are different."""
     runner = CliRunner()
-    result = runner.invoke(cli, ['compare', 'tests/expected/blobby.tif', 'tests/fixtures/notblobby.tif', '--upsample', '8', '--downsample', '64'])
-    assert result.exit_code == -1
+    result = runner.invoke(cli, ['compare', 'tests/expected/blobby.tif',
+                                 'tests/fixtures/notblobby.tif'])
+    assert result.exit_code == 1
+    assert result.output == 'Error: not ok - Band 1 has 4356 pixels that vary by more than 16\n'
 
 
 def test_cli_okcompare_bad_no_error():
+    """Shoult exit 0: raster are different but  `--no-error` is set to True."""
     runner = CliRunner()
-    result = runner.invoke(cli, ['compare', 'tests/expected/blobby.tif', 'tests/fixtures/notblobby.tif', '--upsample', '8', '--downsample', '64', '--no-error'])
+    result = runner.invoke(cli, ['compare', 'tests/expected/blobby.tif',
+                                 'tests/fixtures/notblobby.tif', '--no-error'])
     assert result.exit_code == 0
-    assert result.output == 'not ok - Band 1 has 363 pixels that vary by more than 16\n'
+    assert result.output == 'not ok - Band 1 has 4356 pixels that vary by more than 16\n'
 
 
 def test_cli_okcompare_rgb():
+    """Shoult exit 0: rasters are equals."""
     runner = CliRunner()
-    result = runner.invoke(cli, ['compare', 'tests/expected/blobby_rgb.tif', 'tests/fixtures/notblobby_rgb.tif', '--upsample', '8', '--compare-masked', '--downsample', '64', '--flex-mode'])
+    result = runner.invoke(cli, ['compare', 'tests/expected/blobby_rgb.tif',
+                                 'tests/fixtures/notblobby_rgb.tif',
+                                 '--upsample', '8', '--compare-masked',
+                                 '--downsample', '64', '--flex-mode'])
     assert result.exit_code == 0
 
 
 def test_cli_okcompare_rgb_rev():
+    """Shoult exit 0: rasters are equals."""
     runner = CliRunner()
-    result = runner.invoke(cli, ['compare', 'tests/fixtures/notblobby_rgb.tif', 'tests/expected/blobby_rgb.tif', '--upsample', '8', '--compare-masked', '--downsample', '64', '--flex-mode'])
+    result = runner.invoke(cli, ['compare', 'tests/fixtures/notblobby_rgb.tif',
+                                 'tests/expected/blobby_rgb.tif',
+                                 '--upsample', '8',
+                                 '--compare-masked', '--downsample', '64',
+                                 '--flex-mode'])
     assert result.exit_code == 0
 
 
 def test_cli_okcompare_bad_rgb():
+    """Shoult exit 1: rasters are different."""
     runner = CliRunner()
-    result = runner.invoke(cli, ['compare', 'tests/expected/blobby_rgb.tif', 'tests/fixtures/notblobby_rgb.tif', '--upsample', '8', '--downsample', '64', '--compare-masked'])
-    assert result.exit_code == -1
+    result = runner.invoke(cli, ['compare', 'tests/expected/blobby_rgb.tif',
+                                 'tests/fixtures/notblobby_rgb.tif',
+                                 '--upsample', '8', '--downsample', '64',
+                                 '--compare-masked'])
+    assert result.exit_code == 1
 
 
 def test_cli_okcompare_bad_rgb_rev():
+    """Shoult exit 1: rasters are different."""
     runner = CliRunner()
-    result = runner.invoke(cli, ['compare', 'tests/fixtures/notblobby_rgb.tif', 'tests/expected/blobby_rgb.tif', '--upsample', '8', '--downsample', '64', '--compare-masked'])
-    assert result.exit_code == -1
+    result = runner.invoke(cli, ['compare', 'tests/fixtures/notblobby_rgb.tif',
+                                 'tests/expected/blobby_rgb.tif',
+                                 '--upsample', '8', '--downsample', '64',
+                                 '--compare-masked'])
+    assert result.exit_code == 1
 
 
 def test_isempty(tmpdir):
+    """Shoult exit 0: raster is empty."""
     fakeEmpty = str(tmpdir.join('empty.tif'))
     make_fake(fakeEmpty, True)
+
     runner = CliRunner()
     result = runner.invoke(cli, ['isempty', fakeEmpty, '--randomize'])
     assert result.exit_code == 0
@@ -87,31 +115,38 @@ def test_isempty(tmpdir):
 
 
 def test_isnotempty(tmpdir):
+    """Shoult exit 1: raster is not empty."""
     fakeEmpty = str(tmpdir.join('notempty.tif'))
     make_fake(fakeEmpty, False)
+
     runner = CliRunner()
     result = runner.invoke(cli, ['isempty', fakeEmpty, '--randomize'])
     assert result.exit_code == 1
-    assert result.output == "%s is not empty\n" % (fakeEmpty)
+    assert result.output == "Error: %s is not empty\n" % (fakeEmpty)
 
 
 def test_does_not_cross_dateline():
+    """Shoult exit 0: raster does not cross dateline."""
     runner = CliRunner()
-    result = runner.invoke(cli, ['crossesdateline', 'tests/fixtures/not_cross_dateline.tif'])
+    result = runner.invoke(cli, ['crossesdateline',
+                                 'tests/fixtures/not_cross_dateline.tif'])
     assert result.exit_code == 0
     assert result.output == 'tests/fixtures/not_cross_dateline.tif does not cross dateline; exit 0\n'
 
 
 def test_does_cross_dateline():
+    """Shoult exit 1: raster cross dateline."""
     runner = CliRunner()
-    result = runner.invoke(cli, ['crossesdateline', 'tests/fixtures/crosses_dateline.tif'])
+    result = runner.invoke(cli, ['crossesdateline',
+                                 'tests/fixtures/crosses_dateline.tif'])
     assert result.exit_code == 1
-    assert result.output == 'tests/fixtures/crosses_dateline.tif crosses dateline; exit 1\n'
+    assert result.output == 'Error: tests/fixtures/crosses_dateline.tif crosses dateline; exit 1\n'
 
 
 def test_does_not_cross_dateline_square():
+    """Shoult exit 0: raster does not cross dateline."""
     runner = CliRunner()
-    result = runner.invoke(cli, ['crossesdateline', 'tests/fixtures/not_cross_dateline_square.tif'])
+    result = runner.invoke(cli, ['crossesdateline',
+                                 'tests/fixtures/not_cross_dateline_square.tif'])
     assert result.exit_code == 0
-
     assert result.output == 'tests/fixtures/not_cross_dateline_square.tif does not cross dateline; exit 0\n'

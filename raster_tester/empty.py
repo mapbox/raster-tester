@@ -1,10 +1,11 @@
-import click, sys
 
 import numpy as np
 import rasterio as rio
 
+
 def array_hasdata(arr):
     return np.any(arr)
+
 
 def is_empty(input_path, randomize, bidx):
     with rio.open(input_path) as src:

@@ -4,7 +4,6 @@ common: &common
   working_directory: ~/raster-tester
   steps:
     - checkout
-    - run: sudo apt-get -y --no-install-recommends --force-yes install gdal-bin libgdal-dev
     - run: sudo pip install virtualenv
     - run: virtualenv venv
     - run:
@@ -20,6 +19,7 @@ common: &common
              ~/.local/bin/coverage xml
              ~/.local/bin/codecov
           fi
+        when: always
 
 jobs:
   "python-2.7":
