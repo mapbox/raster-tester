@@ -46,3 +46,10 @@ def test_should_fail_with_no_crs():
 
     with pytest.raises(ValueError):
         transform_bounds(boundsArr, crs)
+
+def test_exact_180_not_crossing():
+    crs = {'init': 'epsg:4326'}
+    boundsArr = densify(make_bounds_array(BoundingBox(179.912109375, -18.369140625, 180.0, -18.28125)))
+
+    transformedBounds = transform_bounds(boundsArr, crs)
+    assert winding_order(transformedBounds) == False
